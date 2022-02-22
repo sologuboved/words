@@ -1,13 +1,14 @@
 from itertools import permutations
 
 
-def pick(initial_masked, incl, excl):
-    suitables = list()
-    incl = list(set(incl) - set(initial_masked))
+def pick(initial_masked, incl, excl, sample_size=float('inf')):
+    suitables = set()
     incl += ['_' for _ in range(initial_masked.count('_') - len(incl))]
     for perm in permutations(incl, initial_masked.count('_')):
         masked_candidate = get_masked_candidate(initial_masked, perm)
-        suitables.extend(find_suitables(masked_candidate, excl))
+        suitables |= find_suitables(masked_candidate, excl, sample_size)
+        if len(suitables) >= sample_size:
+            break
     print(f"Found {len(suitables)}")
     for suitable in suitables:
         print(f"\t{suitable}")
@@ -25,13 +26,15 @@ def get_masked_candidate(initial_masked, perm):
     return masked_candidate
 
 
-def find_suitables(masked, excl):
-    suitables = list()
+def find_suitables(masked, excl, sample_size):
+    suitables = set()
     with open('english.txt') as handler:
         for word in handler:
             word = word[:-1]
             if is_suitable(masked, excl, word):
-                suitables.append(word)
+                suitables.add(word)
+                if len(suitables) == sample_size:
+                    break
     return suitables
 
 
@@ -47,4 +50,6 @@ def is_suitable(masked, excl, word):
 
 
 if __name__ == '__main__':
-    pick('___er', ['t', 'r', 'i'], set())
+    # pick('_____', [], {'i', 'g', 'h', 't', 'p', 'a', 'c', 'e'}, 5)
+    # pick('__o__', ['l', 'n'], {'i', 'g', 'h', 't', 'p', 'a', 'c', 'e', 'b', 'w'})
+    pick('____e', ['o'], {'y', 'x', 'p', 'l', 'a', 'c', 'b', 'i', 'n', 'g', 'd', 'u', 's'}, 5)
