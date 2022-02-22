@@ -3,6 +3,7 @@ from itertools import permutations
 
 def pick(initial_masked, incl, excl):
     suitables = list()
+    incl = list(set(incl) - set(initial_masked))
     incl += ['_' for _ in range(initial_masked.count('_') - len(incl))]
     for perm in permutations(incl, initial_masked.count('_')):
         masked_candidate = get_masked_candidate(initial_masked, perm)
@@ -46,4 +47,4 @@ def is_suitable(masked, excl, word):
 
 
 if __name__ == '__main__':
-    pick('p____', ['l', 'a'], {'c', 'e'})
+    pick('___er', ['t', 'r', 'i'], set())
