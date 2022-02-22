@@ -4,7 +4,7 @@ from itertools import permutations
 def pick(initial_masked, incl, excl):
     suitables = list()
     incl += ['_' for _ in range(initial_masked.count('_') - len(incl))]
-    for perm in permutations(incl, len(initial_masked)):
+    for perm in permutations(incl, initial_masked.count('_')):
         masked_candidate = get_masked_candidate(initial_masked, perm)
         suitables.extend(find_suitables(masked_candidate, excl))
     print(f"Found {len(suitables)}")
@@ -13,9 +13,15 @@ def pick(initial_masked, incl, excl):
 
 
 def get_masked_candidate(initial_masked, perm):
-    return ''.join(
-        initial_masked[indx] if initial_masked[indx] != '_' else perm[indx] for indx in range(len(initial_masked))
-    )
+    masked_candidate = ''
+    indx = 0
+    for char in initial_masked:
+        if char == '_':
+            masked_candidate += perm[indx]
+            indx += 1
+        else:
+            masked_candidate += char
+    return masked_candidate
 
 
 def find_suitables(masked, excl):
@@ -40,4 +46,4 @@ def is_suitable(masked, excl, word):
 
 
 if __name__ == '__main__':
-    pick('_____', ['r', 't', 'h', 'o', 'n'], {'e', 'a', 'u', 'm', 'f', 'i', 'y'})
+    pick('p____', ['l', 'a'], {'c', 'e'})
