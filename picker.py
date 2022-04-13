@@ -50,6 +50,4 @@ def is_suitable(masked, excl, word):
 
 
 if __name__ == '__main__':
-    # pick('_____', [], {'i', 'g', 'h', 't', 'p', 'a', 'c', 'e'}, 5)
-    # pick('__o__', ['l', 'n'], {'i', 'g', 'h', 't', 'p', 'a', 'c', 'e', 'b', 'w'})
-    pick('____e', ['o'], {'y', 'x', 'p', 'l', 'a', 'c', 'b', 'i', 'n', 'g', 'd', 'u', 's'}, 5)
+    pick('ch___', [], {'p', 'l', 'a', 'e', 'o', 'r', 'd'}, 30)
