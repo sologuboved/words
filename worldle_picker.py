@@ -1,8 +1,9 @@
 from itertools import permutations
 
 
-def pick(initial_masked, wrong_placed, incl, excl, sample_size=float('inf')):
+def pick(initial_masked, wrong_placed, excl, sample_size=float('inf')):
     suitables = set()
+    incl = list({char for word in wrong_placed for char in word} - {'_'})
     incl += ['_' for _ in range(initial_masked.count('_') - len(incl))]
     for perm in permutations(incl, initial_masked.count('_')):
         masked_candidate = get_masked_candidate(initial_masked, perm)
@@ -54,4 +55,4 @@ def is_suitable(masked, wrong_placed, excl, word):
 
 
 if __name__ == '__main__':
-    pick('___ce', ['__i__'], ['i'], {'p', 'l', 'a', 'v', 'o'}, 30)
+    pick('_i___', ['____s'], {'p', 'l', 'a', 'c', 'e', 'b', 'g', 'o'}, 30)
